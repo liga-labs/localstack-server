@@ -1,0 +1,28 @@
+@baseUrl = http://localhost
+
+### Criar bucket
+PUT {{baseUrl}}/meu-bucket-teste
+x-amz-acl: private
+
+###
+
+### Listar buckets
+GET {{baseUrl}}
+
+###
+
+### Upload de arquivo para o bucket
+PUT {{baseUrl}}/meu-bucket-teste/avcb.pdf
+Content-Type: application/pdf
+
+< ./avcb.pdf
+
+###
+
+### Listar objetos no bucket
+GET {{baseUrl}}/meu-bucket-teste
+
+###
+
+### Baixar o arquivo
+GET {{baseUrl}}/meu-bucket-teste/hello.txt
