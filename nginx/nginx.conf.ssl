@@ -3,18 +3,14 @@ events {
 }
 
 http {
-    upstream localstack {
-        server localstack:4566;
-    }
-
     # HTTP Server
     server {
         listen 80;
-        server_name www.staging.plataformname.pe.gov.br staging.plataformname.pe.gov.br;
+        server_name www.staging.storage.pe.gov.br staging.storage.pe.gov.br;
 
         # LocalStack
-        location /localstack {
-            proxy_pass http://localstack;
+        location / {
+            proxy_pass http://localstack:4566;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
