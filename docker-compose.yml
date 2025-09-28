@@ -16,13 +16,19 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s # Dá um tempo extra para o LocalStack começar
     networks:
       - localstack_network
 
   # Nginx Reverse Proxy (optional but recommended for production)
   nginx:
     image: nginx:alpine
-    container_name: localstack_nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "${NGINX_PORT:-80}:80"
@@ -31,7 +37,9 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
-      - localstack
+      localstack:
+        condition: service_healthy # Só inicia o Nginx quando o healthcheck do LocalStack passar
+
     networks:
       - localstack_network
 
