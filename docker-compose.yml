@@ -15,20 +15,14 @@ services:
       - AWS_DEFAULT_REGION=us-east-1
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "/run/podman/podman.sock:/var/run/docker.sock:Z"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s # Dá um tempo extra para o LocalStack começar
+      - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - localstack_network
 
   # Nginx Reverse Proxy (optional but recommended for production)
   nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: localstack_nginx
     restart: unless-stopped
     ports:
       - "${NGINX_PORT:-80}:80"
@@ -37,9 +31,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
-      localstack:
-        condition: service_healthy # Só inicia o Nginx quando o healthcheck do LocalStack passar
-
+      - localstack
     networks:
       - localstack_network
 

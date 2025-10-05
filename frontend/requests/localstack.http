@@ -1,28 +1,38 @@
+# Variáveis de ambiente
+# @baseUrl = https://staging.storage.pe.gov.br
 @baseUrl = http://localhost
+@apiKey = your_api_key_here
 
+### -----------------------------------------
 ### Criar bucket
+### -----------------------------------------
 PUT {{baseUrl}}/meu-bucket-teste
+X-Api-Key: {{apiKey}}
 x-amz-acl: private
 
-###
-
+### -----------------------------------------
 ### Listar buckets
+### -----------------------------------------
 GET {{baseUrl}}
+X-Api-Key: {{apiKey}}
 
-###
-
+### -----------------------------------------
 ### Upload de arquivo para o bucket
-PUT {{baseUrl}}/meu-bucket-teste/avcb.pdf
+### -----------------------------------------
+PUT {{baseUrl}}/meu-bucket-teste/teste.pdf
+X-Api-Key: {{apiKey}}
 Content-Type: application/pdf
 
-< ./avcb.pdf
+< ./teste.pdf
 
-###
-
+### -----------------------------------------
 ### Listar objetos no bucket
+### -----------------------------------------
 GET {{baseUrl}}/meu-bucket-teste
+X-Api-Key: {{apiKey}}
 
-###
-
+### -----------------------------------------
 ### Baixar o arquivo
-GET {{baseUrl}}/meu-bucket-teste/hello.txt
+### -----------------------------------------
+GET {{baseUrl}}/meu-bucket-teste/teste.pdf
+X-Api-Key: {{apiKey}}
