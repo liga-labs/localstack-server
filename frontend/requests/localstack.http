@@ -1,6 +1,6 @@
 # Variáveis de ambiente
-# @baseUrl = https://staging.storage.pe.gov.br
-@baseUrl = http://localhost
+@baseUrl = https://staging.storage.pe.gov.br
+# @baseUrl = http://localhost
 @apiKey = your_api_key_here
 
 ### -----------------------------------------
